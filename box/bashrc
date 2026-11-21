@@ -1,0 +1,51 @@
+# The box's shell profile, sourced from /root/.bashrc. Only interactive shells (`pyrovue-run --shell`, docker exec)
+# use it: setup scripts and `bash -c` commands run exactly as they would without it.
+case $- in
+  *i*) ;;
+  *) return ;;
+esac
+
+# A calm prompt: box:/workspace $
+PS1="\[\e[38;5;141m\]box\[\e[0m\]:\[\e[38;5;110m\]\w\[\e[0m\] \$ "
+
+HISTSIZE=5000
+HISTFILESIZE=20000
+HISTCONTROL=ignoreboth
+shopt -s histappend
+PROMPT_COMMAND='history -a'
+
+# Tab completion for git, npm, apt and the rest.
+if ! shopt -oq posix && [ -z "${BASH_COMPLETION_VERSINFO-}" ] && [ -f /usr/share/bash-completion/bash_completion ]; then
+  . /usr/share/bash-completion/bash_completion
+fi
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias cls=clear
+alias cd..='cd ..'
+
+# Windows commands get a one-line hint with the Linux one. Only a hint: nothing is run for you.
+command_not_found_handle() {
+  local linux=""
+  case "${1,,}" in
+    copy) linux="cp" ;;
+    del | erase) linux="rm" ;;
+    move | ren | rename) linux="mv" ;;
+    md) linux="mkdir" ;;
+    rd) linux="rmdir (rm -r for a full folder)" ;;
+    where) linux="which" ;;
+    findstr) linux="grep" ;;
+    ipconfig | ifconfig) linux="hostname -I" ;;
+    tasklist) linux="ps aux" ;;
+    taskkill) linux="kill" ;;
+    dir) linux="ls" ;;
+  esac
+  if [ -n "$linux" ]; then
+    printf '%s: not found. This box runs Linux, so the command is %s.\n' "$1" "$linux" >&2
+  else
+    printf '%s: command not found\n' "$1" >&2
+  fi
+  return 127
+}
+
+echo "You're in the box. The repository is in /workspace. Type exit to leave."
