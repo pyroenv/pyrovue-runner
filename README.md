@@ -8,7 +8,6 @@ Point it at a GitHub or GitLab link. It starts a disposable Docker box, reads th
 install and start it, fixes the common errors on the way, and hands you a live preview on `localhost`.
 
 [![Run on pyrovue](https://pyrovue.com/badge.svg)](https://pyrovue.com/github.com/pyroenv/pyrovue-runner?ref=badge)
-[![CI](https://github.com/pyroenv/pyrovue-runner/actions/workflows/ci.yml/badge.svg)](https://github.com/pyroenv/pyrovue-runner/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 </div>
